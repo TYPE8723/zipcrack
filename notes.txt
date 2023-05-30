@@ -1,0 +1,5 @@
+If you are getting an unsupported compression method 99 error.That means your ZIP file is AES encrypted which is not supported by unzip
+7zip can be used in such cases:
+install : sudo apt install p7zip-full
+cmd : 7z x -p<password> /path/to/your/file.zip
+cmd example: 7za x -p1234 1234.zip
