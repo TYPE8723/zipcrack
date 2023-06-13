@@ -6,7 +6,7 @@ import sys
 
 #inputs and validations
 max_combination_characters = 8#maximum charcters allowed for a password
-zip_file_path = "6di.zip"#input("enter file location : ")
+zip_file_path = "zerozero.zip"#input("enter file location : ")
 digits = int(input("enter the length of your password :"))
 bullets = list(range(0,int('9'*digits)+1))#number of combinations in a thread,i.e 8
 total_elements=len(bullets)//max_combination_characters#total combination in a part
@@ -29,7 +29,7 @@ def unzip_password_protected_file(zip_file_path, output_path, password):
         with pyzipper.AESZipFile(zip_file_path) as zf:
             zf.setpassword(password)
             zf.extractall(output_path)
-        print(f"\nPassword extracted!! \nPassword :{password.decode('utf-8')}")
+        print(f"\nPassword extracted!! \nPassword :{password.decode('utf-8')} \nStopping threads peacefully")
         return True
     except Exception as E:
         # print(str(E))
@@ -41,8 +41,12 @@ def unzip_password_protected_file(zip_file_path, output_path, password):
 def number_combos(parts:list):
     zip_hit_count=0
     for password in parts:
+        str_pass=str(password)
         update_status_bar(zip_hit_count,total_elements)
-        crack_status=unzip_password_protected_file(zip_file_path, output_path, str(password).encode("utf-8"))#joining iterable
+        crack_status=unzip_password_protected_file(zip_file_path, output_path, str_pass.encode("utf-8"))#joining iterable
+        if len(str_pass)<digits:#case 001,01,02....
+            str_pass=str_pass.zfill(digits)
+            crack_status=unzip_password_protected_file(zip_file_path, output_path, str_pass.encode("utf-8"))
         zip_hit_count+=1
     return None
 
